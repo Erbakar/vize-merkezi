@@ -17,12 +17,21 @@ import {
   Clock,
   Menu,
   X,
-  MessageSquare
+  MessageSquare,
+  ArrowRight
 } from 'lucide-react';
 import { ALGERIA_VISA_DATA, VisaCategory } from './constants';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import KVKK from './components/KVKK';
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -39,18 +48,9 @@ const Navbar = () => {
   const NavLinks = ({ onClick }: { onClick?: () => void }) => (
     <>
       <Link to="/" onClick={onClick} className="hover:text-emerald-600 transition-colors py-2 md:py-0">Ana Sayfa</Link>
-      {isHomePage ? (
-        <>
-          <a href="#visas" onClick={onClick} className="hover:text-emerald-600 transition-colors py-2 md:py-0">Vize Türleri</a>
-          <a href="#process" onClick={onClick} className="hover:text-emerald-600 transition-colors py-2 md:py-0">Süreç</a>
-        </>
-      ) : (
-        <>
-          <Link to="/#visas" onClick={onClick} className="hover:text-emerald-600 transition-colors py-2 md:py-0">Vize Türleri</Link>
-          <Link to="/#process" onClick={onClick} className="hover:text-emerald-600 transition-colors py-2 md:py-0">Süreç</Link>
-        </>
-      )}
-      <a href="#contact" onClick={onClick} className="px-5 py-2.5 bg-zinc-900 text-white rounded-full hover:bg-emerald-600 transition-all shadow-md text-center mt-4 md:mt-0">Hemen Başvur</a>
+      <Link to="/vize-turleri" onClick={onClick} className="hover:text-emerald-600 transition-colors py-2 md:py-0">Vize Türleri</Link>
+      <Link to="/basvuru-sureci" onClick={onClick} className="hover:text-emerald-600 transition-colors py-2 md:py-0">Süreç</Link>
+      <Link to="/iletisim" onClick={onClick} className="px-5 py-2.5 bg-zinc-900 text-white rounded-full hover:bg-emerald-600 transition-all shadow-md text-center mt-4 md:mt-0">Hemen Başvur</Link>
     </>
   );
 
@@ -505,19 +505,208 @@ const WhatsAppWidget = () => (
 const Home = () => (
   <>
     <Hero />
+    <section className="py-12 bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid md:grid-cols-3 gap-8">
+          <Link to="/vize-turleri" className="group p-8 rounded-3xl border border-zinc-100 hover:border-emerald-100 hover:bg-emerald-50/30 transition-all">
+            <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <ShieldCheck size={24} />
+            </div>
+            <h3 className="text-xl font-bold text-zinc-900 mb-3">Vize Türleri</h3>
+            <p className="text-zinc-500 text-sm mb-4">Ticari ve turistik vize seçeneklerini, gerekli evrakları ve güncel ücretleri inceleyin.</p>
+            <div className="flex items-center gap-2 text-emerald-600 font-bold text-sm">
+              İncele <ArrowRight size={16} />
+            </div>
+          </Link>
+          <Link to="/basvuru-sureci" className="group p-8 rounded-3xl border border-zinc-100 hover:border-emerald-100 hover:bg-emerald-50/30 transition-all">
+            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <Clock size={24} />
+            </div>
+            <h3 className="text-xl font-bold text-zinc-900 mb-3">Başvuru Süreci</h3>
+            <p className="text-zinc-500 text-sm mb-4">Adım adım vize başvuru sürecini öğrenin ve hazırlıklarınızı buna göre yapın.</p>
+            <div className="flex items-center gap-2 text-blue-600 font-bold text-sm">
+              Öğren <ArrowRight size={16} />
+            </div>
+          </Link>
+          <Link to="/iletisim" className="group p-8 rounded-3xl border border-zinc-100 hover:border-emerald-100 hover:bg-emerald-50/30 transition-all">
+            <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <MessageSquare size={24} />
+            </div>
+            <h3 className="text-xl font-bold text-zinc-900 mb-3">Ücretsiz Danışmanlık</h3>
+            <p className="text-zinc-500 text-sm mb-4">Aklınıza takılan tüm sorular için uzman danışmanlarımızla hemen iletişime geçin.</p>
+            <div className="flex items-center gap-2 text-purple-600 font-bold text-sm">
+              Bize Ulaşın <ArrowRight size={16} />
+            </div>
+          </Link>
+        </div>
+      </div>
+    </section>
     <VisaSection />
     <ProcessSection />
     <ContactSection />
   </>
 );
 
+const VizeTurleriPage = () => (
+  <div className="pt-24">
+    <div className="relative py-32 px-6 overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1541410965313-d53b3c16ef17?q=80&w=1920&auto=format&fit=crop" 
+          alt="Cezayir Vize Türleri" 
+          className="w-full h-full object-cover"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-zinc-950/80 backdrop-blur-[2px]"></div>
+      </div>
+      <div className="max-w-7xl mx-auto text-center relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1 className="text-4xl md:text-7xl font-serif font-bold text-white mb-6">Cezayir Vize Türleri</h1>
+          <p className="text-zinc-300 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed">
+            Seyahat amacınıza en uygun vize kategorisini seçin. 2026 güncel evrak listesi ve ücretlendirme detayları ile profesyonel destek.
+          </p>
+        </motion.div>
+      </div>
+    </div>
+    <VisaSection />
+    <section className="py-20 bg-zinc-50 border-t border-zinc-100">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 className="text-3xl font-serif font-bold text-zinc-900 mb-6">Neden Bizimle Çalışmalısınız?</h2>
+            <div className="space-y-4">
+              {[
+                "Eksiksiz evrak kontrolü ile %98 başarı oranı",
+                "Konsolosluk randevu işlemlerinin takibi",
+                "Profesyonel dilekçe ve form hazırlığı",
+                "Hızlı ve güvenilir işlem süreci"
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-3 text-zinc-700">
+                  <CheckCircle2 className="text-emerald-600 shrink-0" size={20} />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="bg-white p-8 rounded-3xl shadow-sm border border-zinc-100">
+            <h3 className="text-xl font-bold text-zinc-900 mb-4">Önemli Hatırlatma</h3>
+            <p className="text-zinc-500 text-sm leading-relaxed">
+              Cezayir vize başvurularında pasaportunuzun en az 6 ay geçerlilik süresi olması gerekmektedir. 
+              Ayrıca, vize onay süreci konsolosluğun yoğunluğuna göre değişiklik gösterebilir. 
+              Seyahatinizden en az 15 gün önce başvuru yapmanızı öneririz.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+);
+
+const BasvuruSureciPage = () => (
+  <div className="pt-24">
+    <div className="relative py-32 px-6 overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?q=80&w=1920&auto=format&fit=crop" 
+          alt="Başvuru Süreci" 
+          className="w-full h-full object-cover"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-emerald-900/80 backdrop-blur-[2px]"></div>
+      </div>
+      <div className="max-w-7xl mx-auto text-center relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1 className="text-4xl md:text-7xl font-serif font-bold text-white mb-6">Adım Adım Vize Süreci</h1>
+          <p className="text-emerald-50 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed">
+            Karmaşık prosedürleri sizin için basitleştiriyoruz. Başvurudan vize teslimine kadar her an yanınızdayız.
+          </p>
+        </motion.div>
+      </div>
+    </div>
+    <ProcessSection />
+    <section className="py-20 bg-white">
+      <div className="max-w-4xl mx-auto px-6">
+        <h2 className="text-3xl font-serif font-bold text-zinc-900 mb-12 text-center">Sıkça Sorulan Sorular</h2>
+        <div className="space-y-8">
+          {[
+            { q: "Cezayir vizesi kaç günde çıkar?", a: "Normal şartlarda başvurunuz konsolosluğa iletildikten sonra 3-4 iş günü içinde sonuçlanmaktadır." },
+            { q: "Vize için şahsen gelmem gerekiyor mu?", a: "Evraklarınızı kargo ile bize ulaştırmanız yeterlidir. Sizin adınıza tüm süreci biz takip ediyoruz." },
+            { q: "Vize reddi durumunda ne olur?", a: "Uzmanlarımız evraklarınızı titizlikle incelediği için ret oranı oldukça düşüktür. Olası bir risk durumunda sizi önceden bilgilendiriyoruz." }
+          ].map((item, i) => (
+            <div key={i} className="p-6 rounded-2xl bg-zinc-50 border border-zinc-100">
+              <h3 className="font-bold text-zinc-900 mb-2">{item.q}</h3>
+              <p className="text-zinc-500 text-sm leading-relaxed">{item.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+);
+
+const IletisimPage = () => (
+  <div className="pt-24">
+    <div className="relative py-32 px-6 overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1920&auto=format&fit=crop" 
+          alt="İletişim" 
+          className="w-full h-full object-cover"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-zinc-900/70 backdrop-blur-[2px]"></div>
+      </div>
+      <div className="max-w-7xl mx-auto text-center relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1 className="text-4xl md:text-7xl font-serif font-bold text-white mb-6">Bize Ulaşın</h1>
+          <p className="text-zinc-200 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed">
+            Vize başvurunuzu başlatmak veya detaylı bilgi almak için form doldurabilir ya da bizi doğrudan arayabilirsiniz.
+          </p>
+        </motion.div>
+      </div>
+    </div>
+    <ContactSection />
+    <div className="h-[400px] w-full bg-zinc-100 relative overflow-hidden">
+      <img 
+        src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1920&auto=format&fit=crop" 
+        alt="Map placeholder" 
+        className="w-full h-full object-cover grayscale opacity-50"
+        referrerPolicy="no-referrer"
+      />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="glass p-6 rounded-2xl shadow-xl text-center max-w-xs">
+          <MapPin className="text-emerald-600 mx-auto mb-4" size={32} />
+          <h3 className="font-bold text-zinc-900 mb-2">Ofisimiz</h3>
+          <p className="text-zinc-500 text-sm">Levent, Büyükdere Cd. No:123, 34394 Şişli/İstanbul</p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="min-h-screen">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/vize-turleri" element={<VizeTurleriPage />} />
+          <Route path="/basvuru-sureci" element={<BasvuruSureciPage />} />
+          <Route path="/iletisim" element={<IletisimPage />} />
           <Route path="/gizlilik-politikasi" element={<PrivacyPolicy />} />
           <Route path="/kullanim-sartlari" element={<TermsOfService />} />
           <Route path="/kvkk" element={<KVKK />} />
